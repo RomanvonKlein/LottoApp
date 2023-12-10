@@ -5,6 +5,7 @@ package lottoApp;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.Scanner;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -14,10 +15,36 @@ public class App {
     private static final String LOG_DIR = "./logs/";
 
     public static void main(String[] args) {
+        // Setup logger & create log file
+        setupLogger();
+        // Parse Inputs
+        boolean stop = parseCommand(args);
+        Scanner userInput = new Scanner(System.in);
+        while(!stop){
+            System.out.println("You may now continue to request predictions or stop the application by typing 'exit' and hitting 'Enter'.");
+            stop = parseCommand(userInput.nextLine().split(" "));
+        }
+        LOGGER.info("Goodbye!");
+    }
+
+    private static boolean parseCommand(String[] args) {
+        if(args.length > 0 && args[0].equals("exit")){
+            return true;
+        }
+        LOGGER.info(String.format("Parsing %d arguments", args.length));
+        for (String param : args) {
+            LOGGER.info(String.format("Parsing arg: '%s'", param));
+        }
+        return false;
+    }
+
+    private static void setupLogger() {
+        //TODO: before shipping for production, remove logger output to console.
         Calendar now = Calendar.getInstance();
 
-        String logPath = String.format("%s%4d-%02d-%02d_%02d-%02d-%02d.log", LOG_DIR, now.get(Calendar.YEAR), now.get(Calendar.MONTH)+1, now.get(Calendar.DAY_OF_MONTH),
-                now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE),now.get(Calendar.SECOND));
+        String logPath = String.format("%s%4d-%02d-%02d_%02d-%02d-%02d.log", LOG_DIR, now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH) + 1, now.get(Calendar.DAY_OF_MONTH),
+                now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND));
         try {
             new File(LOG_DIR).mkdirs();
             new File(logPath).createNewFile();
