@@ -2,7 +2,6 @@ package lottoapp.data;
 
 import java.util.List;
 import java.util.Random;
-import java.util.random.RandomGenerator;
 
 import lottoapp.App;
 

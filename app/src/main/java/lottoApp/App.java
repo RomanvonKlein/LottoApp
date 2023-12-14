@@ -51,23 +51,24 @@ public class App {
             e.printStackTrace();
         }
         LOGGER.info("Goodbye!");
+        closeLogger();
     }
 
     private static boolean parseCommand(String[] args) {
         LOGGER.info(String.format("Parsing %d arguments", args.length));
-        if (args.length > 0) {
-            if (args[0].equals("exit")) {
-                return true;
-            }
-            String commandName = args[0];
-            if (CommandMap.containsKey(commandName)) {
-                CommandMap.get(commandName).execute(Arrays.stream(args, 1, args.length).toArray(String[]::new));
-            } else {
-                // TODO: descriptive error reporting
-                System.out.println(
-                        String.format("Comman with name '%s' was not found. Registered commands: %s", commandName,
-                                Arrays.toString(CommandMap.keySet().toArray())));
-            }
+        if (args.length == 0) {
+            args = new String[] { "game", "lotto" };
+        }
+        if (args[0].equals("exit")) {
+            return true;
+        }
+        String commandName = args[0];
+        if (CommandMap.containsKey(commandName)) {
+            CommandMap.get(commandName).execute(Arrays.stream(args, 1, args.length).toArray(String[]::new));
+        } else {
+            System.out.println(
+                    String.format("Comman with name '%s' was not found. Registered commands: %s", commandName,
+                            Arrays.toString(CommandMap.keySet().toArray())));
         }
         return false;
     }
@@ -90,5 +91,9 @@ public class App {
             System.err.println("Failed to open log file at '" + logPath + "'. Logging to console instead.");
         }
         LOGGER.info("Logger set up. App initialized.");
+    }
+
+    private static void closeLogger() {
+        // TODO: remove lock for logger file.
     }
 }
