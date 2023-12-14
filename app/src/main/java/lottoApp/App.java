@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class App {
-    //TODO: maybe remove utility functions from the main App class...
+    // TODO: maybe remove utility functions from the main App class...
     public static final Logger LOGGER = Logger.getLogger(App.class.getName());
     private static final String LOG_DIR = "./logs/";
     public static final List<Integer> BLACKLIST = new ArrayList<>();
@@ -32,6 +32,7 @@ public class App {
     private static final Map<String, ICommandProcessor> CommandMap = new HashMap<>(
             Map.of("game", GameCommandProcessor.getInstance(), "blacklist",
                     BlacklistCommandProcessor.getInstance()));
+    public static final int MAX_BLACKLIST = 6;
 
     public static void main(String[] args) {
         // Setup logger & create log file

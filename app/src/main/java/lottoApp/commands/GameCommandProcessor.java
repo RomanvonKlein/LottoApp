@@ -14,6 +14,15 @@ public class GameCommandProcessor implements ICommandProcessor {
     private static HashMap<String, IGame> gameMap = new HashMap<>(
             Map.of("lotto", new LottoGame(), "eurojackpot", new EurojackpotGame()));
 
+    public static boolean isNumberValidForAllGames(int number) {
+        for (IGame game : gameMap.values()) {
+            if (!game.isNumberValid(number)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private GameCommandProcessor() {
     }
 

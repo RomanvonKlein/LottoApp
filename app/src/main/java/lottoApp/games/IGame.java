@@ -20,4 +20,13 @@ public interface IGame {
         }
         return predictions;
     }
+
+    public default boolean isNumberValid(int number) {
+        for (Prediction pred : this.getRanges()) {
+            if (number < pred.getMin() || number > pred.getMax()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
