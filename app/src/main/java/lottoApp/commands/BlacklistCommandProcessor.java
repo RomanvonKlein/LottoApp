@@ -13,7 +13,7 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
 
     @Override
     public void execute(String[] args) throws IllegalArgumentException {
-        if (args.length < 2) {
+        if (args.length >= 2) {
             String method = args[0].toLowerCase();
             if (method.equals("add")) {
                 tryParseAddNumbers(Arrays.stream(args, 1, args.length).toArray(String[]::new));
@@ -42,10 +42,10 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
             throw new IllegalArgumentException(String
                     .format("Number '%d' is already in the blacklist. Current blacklist content: %s",
                             number, Arrays.toString(App.BLACKLIST.toArray())));
-        } else if (!GameCommandProcessor.isNumberValidForAllGames(number)) {
+        } else if (!GameCommandProcessor.isNumberValidForAnyGame(number)) {
             throw new IllegalArgumentException(String
-                    .format("Number '%d' is already in the blacklist. Current blacklist content: %s",
-                            number, Arrays.toString(App.BLACKLIST.toArray())));
+                    .format("Number '%d' is not valid for any game.",
+                            number));
         } else {
             App.BLACKLIST.add(number);
             return true;

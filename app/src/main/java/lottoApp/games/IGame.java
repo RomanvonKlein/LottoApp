@@ -22,6 +22,7 @@ public interface IGame {
     }
 
     public default boolean isNumberValid(int number) {
+        //TODO: summe nicht schnittmenge
         for (Prediction pred : this.getRanges()) {
             if (number < pred.getMin() || number > pred.getMax()) {
                 return false;

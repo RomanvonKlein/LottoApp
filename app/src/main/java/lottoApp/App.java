@@ -8,20 +8,20 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-import java.util.Arrays;
 
-import lottoapp.commands.ICommandProcessor;
 import lottoapp.commands.BlacklistCommandProcessor;
 import lottoapp.commands.GameCommandProcessor;
+import lottoapp.commands.ICommandProcessor;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
+import static lottoapp.data.Storage.loadBlacklist;
 
 public class App {
     // TODO: maybe remove utility functions from the main App class...
@@ -37,14 +37,17 @@ public class App {
     public static void main(String[] args) {
         // Setup logger & create log file
         setupLogger();
-        // TODO: Load blacklist from os if present
+        // Load blacklist from os if present
+        loadBlacklist();
         // Parse Inputs
         boolean stop = parseCommand(args);
         try (BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in))) {
             while (!stop) {
-                System.out.println(
-                        "You may now continue to request predictions or stop the application by typing 'exit' and hitting 'Enter'.");
-                stop = parseCommand(userInput.readLine().split(" "));
+                outputInstructions();
+                String inputs = userInput.readLine();
+                if(inputs != null){
+                    stop = parseCommand(inputs.split(" "));
+                }
             }
         } catch (IOException e) {
             // TODO: clever catch clause here
@@ -56,7 +59,7 @@ public class App {
 
     private static boolean parseCommand(String[] args) {
         LOGGER.info(String.format("Parsing %d arguments", args.length));
-        if (args.length == 0) {
+        if (args.length == 0 || args[0].equals("")) {
             args = new String[] { "game", "lotto" };
         }
         if (args[0].equals("exit")) {
@@ -64,10 +67,15 @@ public class App {
         }
         String commandName = args[0];
         if (CommandMap.containsKey(commandName)) {
-            CommandMap.get(commandName).execute(Arrays.stream(args, 1, args.length).toArray(String[]::new));
+            try {
+                CommandMap.get(commandName).execute(Arrays.stream(args, 1, args.length).toArray(String[]::new));
+            } catch (IllegalArgumentException e) {
+                System.out.println(String.format("Bad input: %s", e.getMessage()));
+                outputInstructions();
+            }
         } else {
             System.out.println(
-                    String.format("Comman with name '%s' was not found. Registered commands: %s", commandName,
+                    String.format("Command with name '%s' was not found. Registered commands: %s", commandName,
                             Arrays.toString(CommandMap.keySet().toArray())));
         }
         return false;
@@ -95,5 +103,13 @@ public class App {
 
     private static void closeLogger() {
         // TODO: remove lock for logger file.
+    }
+
+    private static void outputInstructions() {
+        System.out.println("LottoApp usage: [command] [parameter1, parameter2, ...]");
+        System.out.println("    commands: game, blacklist, exit");
+        System.out.println("        game: 'game lotto' or  'game eurojackpot'");
+        System.out.println(
+                "        blacklist: 'blacklist add [number1, number2...]' or  'blacklist remove [number1, number2...]'");
     }
 }
