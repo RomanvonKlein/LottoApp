@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class App {
+    //TODO: maybe remove utility functions from the main App class...
     public static final Logger LOGGER = Logger.getLogger(App.class.getName());
     private static final String LOG_DIR = "./logs/";
     public static final List<Integer> BLACKLIST = new ArrayList<>();

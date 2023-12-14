@@ -8,7 +8,7 @@ import lottoapp.data.Prediction;
 public class LottoGame implements IGame {
     private static ArrayList<Prediction> ranges = new ArrayList<>() {
         {
-            add(new Prediction(1, 10, 5));
+            add(new Prediction(1, 49, 6));
         }
     };
 
