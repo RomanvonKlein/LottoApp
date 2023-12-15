@@ -42,6 +42,8 @@ public class Prediction {
         if (max + 1 - min < count) {
             throw new IllegalArgumentException(
                     String.format("Cannot generate %s unique numbers in the range from %d to %d.", count, min, max));
+        }else if (count <1){
+            throw new IllegalArgumentException("Cannot create prediciton series with less than 1 expected prediction.");
         }
     }
 
