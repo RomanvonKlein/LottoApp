@@ -3,6 +3,7 @@
  */
 package lottoapp;
 
+import lottoapp.logging.Logging;
 import org.junit.Test;
 
 import lottoapp.App;
@@ -13,6 +14,6 @@ public class AppTest {
     @Test
     public void appHasALogger() {
         App classUnderTest = new App();
-        assertNotNull("app should have a logger", classUnderTest.LOGGER);
+        assertNotNull("app should have a logger", Logging.LOGGER);
     }
 }

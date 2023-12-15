@@ -20,13 +20,15 @@ import java.util.logging.SimpleFormatter;
 import lottoapp.commands.BlacklistCommandProcessor;
 import lottoapp.commands.GameCommandProcessor;
 import lottoapp.commands.ICommandProcessor;
+import lottoapp.logging.Logging;
 
 import static lottoapp.data.Storage.loadBlacklist;
+import static lottoapp.logging.Logging.LOGGER;
 
 public class App {
     // TODO: maybe remove utility functions from the main App class...
-    public static final Logger LOGGER = Logger.getLogger(App.class.getName());
-    private static final String LOG_DIR = "./logs/";
+
+
     public static final List<Integer> BLACKLIST = new ArrayList<>();
 
     private static final Map<String, ICommandProcessor> CommandMap = new HashMap<>(
@@ -36,7 +38,7 @@ public class App {
 
     public static void main(String[] args) {
         // Setup logger & create log file
-        setupLogger();
+        Logging.setupLogger();
         // Load blacklist from os if present
         loadBlacklist();
         // Parse Inputs
@@ -54,7 +56,7 @@ public class App {
             e.printStackTrace();
         }
         LOGGER.info("Goodbye!");
-        closeLogger();
+        Logging.closeLogger();
     }
 
     private static boolean parseCommand(String[] args) {
@@ -79,30 +81,6 @@ public class App {
                             Arrays.toString(CommandMap.keySet().toArray())));
         }
         return false;
-    }
-
-    private static void setupLogger() {
-        // TODO: before shipping for production, remove logger output to console.
-        Calendar now = Calendar.getInstance();
-
-        String logPath = String.format("%s%4d-%02d-%02d_%02d-%02d-%02d.log", LOG_DIR, now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH) + 1, now.get(Calendar.DAY_OF_MONTH),
-                now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND));
-        try {
-            new File(LOG_DIR).mkdirs();
-            new File(logPath).createNewFile();
-            FileHandler fh = new FileHandler(logPath);
-            LOGGER.addHandler(fh);
-            SimpleFormatter formatter = new SimpleFormatter();
-            fh.setFormatter(formatter);
-        } catch (Exception e) {
-            System.err.println("Failed to open log file at '" + logPath + "'. Logging to console instead.");
-        }
-        LOGGER.info("Logger set up. App initialized.");
-    }
-
-    private static void closeLogger() {
-        // TODO: remove lock for logger file.
     }
 
     private static void outputInstructions() {
