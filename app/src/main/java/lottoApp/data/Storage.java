@@ -24,13 +24,13 @@ public class Storage {
                 file.delete();
             }
             String json = gson.toJson(App.BLACKLIST.toArray());
-            LOGGER.info(String.format("Parsed json from blacklist: '%s'",json));
+            LOGGER.info(String.format("Parsed json from blacklist: '%s'", json));
             FileWriter writer = new FileWriter(BLACKLIST_FILE_PATH);
             writer.write(json);
             writer.close();
             LOGGER.info("Successfully wrote blacklist to json.");
         } catch (IOException e) {
-            LOGGER.severe(String.format("Failed to write Blacklist json to path : '%s'",BLACKLIST_FILE_PATH));
+            LOGGER.severe(String.format("Failed to write Blacklist json to path : '%s'", BLACKLIST_FILE_PATH));
             LOGGER.severe(e.toString());
         }
 
@@ -42,7 +42,7 @@ public class Storage {
             JsonReader jsreader = new JsonReader(new FileReader(BLACKLIST_FILE_PATH));
 
             int[] blacklistNumbers = gson.fromJson(jsreader, int[].class);
-            LOGGER.info("Read values from blacklist.json: " + Arrays.toString(blacklistNumbers));
+            LOGGER.info(String.format("Read values from blacklist.json: %s", Arrays.toString(blacklistNumbers)));
             jsreader.close();
             for (int number : blacklistNumbers) {
                 LOGGER.info(String.format("Loaded number %d for blacklist from filesystem.", number));
@@ -51,7 +51,7 @@ public class Storage {
         } catch (FileNotFoundException e) {
             LOGGER
                     .info("The blacklist file did not exist. Creating it with next modification to of the Blacklist.");
-        }catch (IOException e){
+        } catch (IOException e) {
             LOGGER.severe("Failed reading the existing blacklist.json file!");
         }
 
