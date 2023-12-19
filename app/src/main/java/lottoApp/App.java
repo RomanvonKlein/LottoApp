@@ -20,14 +20,28 @@ import static lottoapp.logging.Logging.LOGGER;
 public class App {
     // Constants
 
-
+    /**
+     * Blacklist containing integers that will not be returned with the games'
+     * predictions
+     */
     public static final List<Integer> BLACKLIST = new ArrayList<>();
 
+    /**
+     * Map for assigning the user-input command names to the distinct command
+     * processor.
+     */
     private static final Map<String, ICommandProcessor> CommandMap = new HashMap<>(
-            Map.of("game", GameCommandProcessor.getInstance(), "blacklist",
-                    BlacklistCommandProcessor.getInstance()));
+            Map.of(
+                    "game", GameCommandProcessor.getInstance(),
+                    "blacklist", BlacklistCommandProcessor.getInstance()));
+    /**
+     * Limit for the length of the blacklist
+     */
     public static final int MAX_BLACKLIST = 6;
 
+    /**
+     * Entry point. Will try to parse the user input arguments, then goes into a loop until the user inputs 'exit' or closes the application.
+     */
     public static void main(String[] args) {
         // Setup logger & create log file
         Logging.setupLogger();
@@ -39,17 +53,17 @@ public class App {
             boolean stop = parseCommand(args);
 
             while (!stop) {
-                try{
+                try {
                     outputInstructions();
                     String inputs = userInput.readLine();
-                    if(inputs != null){
+                    if (inputs != null) {
                         stop = parseCommand(inputs.split(" "));
                     }
-                } catch (BadCommandSyntaxException e){
+                } catch (BadCommandSyntaxException e) {
                     LOGGER.info("The user put in wrong syntax.");
                     LOGGER.info(e.getMessage());
                     System.out.println(e.getMessage());
-                } catch (IllegalArgumentException e){
+                } catch (IllegalArgumentException e) {
                     LOGGER.info("The user has put in a bad argument:");
                     LOGGER.info(e.getMessage());
                     System.out.println(e.getMessage());
@@ -58,13 +72,12 @@ public class App {
         } catch (IOException e) {
             LOGGER.severe("Failed trying to read user-inputs");
             LOGGER.severe(e.getMessage());
-            //also update the user on what's going on
             System.out.println("An internal error occurred during initialization. Shutting down.");
-        }catch (BadCommandSyntaxException e){
+        } catch (BadCommandSyntaxException e) {
             LOGGER.info("The user put in wrong syntax.");
             LOGGER.info(e.getMessage());
             System.out.println(e.getMessage());
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             LOGGER.info("The user has put in a bad argument:");
             LOGGER.info(e.getMessage());
             System.out.println(e.getMessage());
@@ -74,6 +87,10 @@ public class App {
         Logging.closeLogger();
     }
 
+    /**
+     * Parses the command from the given inputs. If not inputs are given, will fill in the default values ["game","lotto"].
+     * @returns 'True' if the argument 'exit' has been parsed and the application should shut down. 'False' otherwise.
+     */
     private static boolean parseCommand(String[] args) {
         LOGGER.info(String.format("Parsing %d arguments", args.length));
         if (args.length == 0 || args[0].equals("")) {
@@ -91,7 +108,7 @@ public class App {
                 LOGGER.info(e.getMessage());
             }
         } else {
-            LOGGER.info(String.format("User entered invalid command: '%s'",commandName));
+            LOGGER.info(String.format("User entered invalid command: '%s'", commandName));
             System.out.println(
                     String.format("Command with name '%s' was not found. Registered commands: %s", commandName,
                             Arrays.toString(CommandMap.keySet().toArray())));

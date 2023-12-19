@@ -22,6 +22,7 @@ public class Storage {
             File file = new File(BLACKLIST_FILE_PATH);
             if (file.exists()) {
                 file.delete();
+                
             }
             String json = gson.toJson(App.BLACKLIST.toArray());
             LOGGER.info(String.format("Parsed json from blacklist: '%s'", json));
