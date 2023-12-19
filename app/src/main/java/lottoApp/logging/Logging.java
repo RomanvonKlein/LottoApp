@@ -3,6 +3,7 @@ package lottoapp.logging;
 import lottoapp.App;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -14,7 +15,9 @@ public class Logging {
     private static  FileHandler fh;
     private Logging(){}
     public static void setupLogger(){
-        // TODO: before shipping for production, remove logger output to console.
+        //Remove logging output from console
+        LOGGER.removeHandler(LOGGER.getHandlers()[0]);
+
         Calendar now = Calendar.getInstance();
 
         String logPath = String.format("%s%4d-%02d-%02d_%02d-%02d-%02d.log", LOG_DIR, now.get(Calendar.YEAR),
@@ -27,8 +30,8 @@ public class Logging {
             LOGGER.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
-        } catch (Exception e) {
-            System.err.println("Failed to open log file at '" + logPath + "'. Logging to console instead.");
+        } catch (IOException e) {
+            System.err.println("Failed to open log file at '" + logPath + "'.");
         }
         LOGGER.info("Logger set up. App initialized.");
     }

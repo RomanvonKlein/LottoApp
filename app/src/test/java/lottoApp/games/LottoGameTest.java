@@ -7,18 +7,31 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class LottoGameTest {
+
     @Test
-    public void testValidNumbers(){
-        //Test edge cases
+    public void testIsNumberValid_justInBounds() {
         LottoGame lottoGame =  new LottoGame();
-        assertFalse(lottoGame.isNumberValid(0));
-        assertTrue(lottoGame.isNumberValid(1));
-        assertFalse(lottoGame.isNumberValid(50));
-        assertTrue(lottoGame.isNumberValid(49));
-        //Test mid range cases
-        assertTrue(lottoGame.isNumberValid(12));
-        assertTrue(lottoGame.isNumberValid(23));
+
+        assertTrue("1 should be just in valid range for this game.", lottoGame.isNumberValid(1));
+        assertTrue("49 should be the largest valid number for this game.", lottoGame.isNumberValid(49));
     }
+
+    @Test
+    public void testIsNumberValid_outOfBounds() {
+        LottoGame lottoGame =  new LottoGame();
+
+        assertFalse("0 should not be valid for this game", lottoGame.isNumberValid(0));
+        assertFalse("50 should not too large a number for this game", lottoGame.isNumberValid(50));
+    }
+
+    @Test
+    public void testIsNumberValid_validMiddle() {
+        LottoGame lottoGame =  new LottoGame();
+
+        assertTrue("20 should be valid for this game.", lottoGame.isNumberValid(12));
+        assertTrue("25 should be valid for this game.", lottoGame.isNumberValid(23));
+    }
+
     @Test
     public void testPredictions_size() {
         LottoGame lottoGame = new LottoGame();
@@ -27,6 +40,7 @@ public class LottoGameTest {
         assertEquals("There should be exactly one set of predictions.",1, predictions.size());
         assertEquals("There should be 6 number in the prediction.",6, predictions.get(0).size());
     }
+
     @Test
     public void testPredictions_numberRange(){
         LottoGame lottoGame = new LottoGame();
@@ -36,11 +50,12 @@ public class LottoGameTest {
             assertTrue(candidate > 0 && candidate < 50);
         }
     }
+
     @Test
     public void testPredictions_orderPredictions(){
         LottoGame lottoGame = new LottoGame();
         List<List<Integer>> predictions = lottoGame.getPredictions();
-        //test predicted values are in range
+        //test predicted values are in order
         int lastval = -1;
         for (int candidate:predictions.get(0)) {
             assertTrue(candidate > lastval);

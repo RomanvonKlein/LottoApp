@@ -8,17 +8,27 @@ import static org.junit.Assert.*;
 
 public class EurojackpotGameTest {
     @Test
-    public void testIsNumberValid() {
+    public void testIsNumberValid_justInBounds() {
         EurojackpotGame eurojackpotGame = new EurojackpotGame();
 
-        // Test mid range cases
+        assertTrue("1 should be just in valid range for this game.", eurojackpotGame.isNumberValid(1));
+        assertTrue("50 should be the largest valid number for this game.", eurojackpotGame.isNumberValid(50));
+    }
+
+    @Test
+    public void testIsNumberValid_outOfBounds() {
+        EurojackpotGame eurojackpotGame = new EurojackpotGame();
+
+        assertFalse("0 should not be valid for this game", eurojackpotGame.isNumberValid(0));
+        assertFalse("51 should not too large a number for this game", eurojackpotGame.isNumberValid(51));
+    }
+
+    @Test
+    public void testIsNumberValid_validMiddle() {
+        EurojackpotGame eurojackpotGame = new EurojackpotGame();
+
         assertTrue("20 should be valid for this game.", eurojackpotGame.isNumberValid(20));
         assertTrue("25 should be valid for this game.", eurojackpotGame.isNumberValid(25));
-        // Test edge cases
-        assertFalse("0 should not be valid for this game", eurojackpotGame.isNumberValid(0));
-        assertTrue("1 should be just in valid range for this game.", eurojackpotGame.isNumberValid(1));
-        assertFalse("51 should not too large a number for this game", eurojackpotGame.isNumberValid(51));
-        assertTrue("50 should be the largest valid number for this game.", eurojackpotGame.isNumberValid(50));
     }
 
     @Test
@@ -54,7 +64,7 @@ public class EurojackpotGameTest {
     public void testPredictions_orderPredictions_firstPart(){
         EurojackpotGame eurojackpotGame = new EurojackpotGame();
         List<List<Integer>> predictions = eurojackpotGame.getPredictions();
-        //test predicted values are in range
+        //test predicted values are in order
         int lastval = -1;
         for (int candidate:predictions.get(0)) {
             assertTrue(candidate > lastval);
@@ -65,7 +75,7 @@ public class EurojackpotGameTest {
     public void testPredictions_orderPredictions_secondPart(){
         EurojackpotGame eurojackpotGame = new EurojackpotGame();
         List<List<Integer>> predictions = eurojackpotGame.getPredictions();
-        //test predicted values are in range
+        //test predicted values are in order
         int lastval = -1;
         for (int candidate:predictions.get(1)) {
             assertTrue(candidate > lastval);
