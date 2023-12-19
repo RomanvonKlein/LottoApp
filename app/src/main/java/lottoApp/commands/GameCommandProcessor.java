@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
+import lottoapp.exception.BadCommandSyntaxException;
 import lottoapp.games.EurojackpotGame;
 import lottoapp.games.IGame;
 import lottoapp.games.LottoGame;
+import lottoapp.logging.Logging;
 
 public class GameCommandProcessor implements ICommandProcessor {
 
@@ -28,7 +31,7 @@ public class GameCommandProcessor implements ICommandProcessor {
     @Override
     public void execute(String[] args) {
         if (args.length == 0) {
-            throw new IllegalArgumentException("Not enough parameters were passed. Usage: 'game [gamename]'.");
+            throw new BadCommandSyntaxException("Not enough parameters were passed. Usage: 'game [gamename]'.");
         }
         String gameName = args[0].toLowerCase();
         if (!gameMap.containsKey(gameName)) {
@@ -51,21 +54,14 @@ public class GameCommandProcessor implements ICommandProcessor {
         System.out.println(".");
     }
 
-    public static boolean isNumberValidForAllGames(int number) {
-        for (IGame game : gameMap.values()) {
-            if (!game.isNumberValid(number)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public static boolean isNumberValidForAnyGame(int number) {
         for (IGame game : gameMap.values()) {
             if (game.isNumberValid(number)) {
+                Logging.LOGGER.info(String.format("Number %d is a valid number for game %s.",number,game.getName()));
                 return true;
             }
         }
+        Logging.LOGGER.info(String.format("Number %d is not a valid number in any game.",number));
         return false;
     }
 }

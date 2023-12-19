@@ -17,4 +17,8 @@ public class LottoGame implements IGame {
         return ranges;
     }
 
+    @Override
+    public String getName(){
+        return "Lotto";
+    }
 }

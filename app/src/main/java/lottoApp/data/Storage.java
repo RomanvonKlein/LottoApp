@@ -28,6 +28,7 @@ public class Storage {
             FileWriter writer = new FileWriter(BLACKLIST_FILE_PATH);
             writer.write(json);
             writer.close();
+            LOGGER.info("Successfully wrote blacklist to json.");
         } catch (IOException e) {
             LOGGER.severe(String.format("Failed to write Blacklist json to path : '%s'",BLACKLIST_FILE_PATH));
             LOGGER.severe(e.toString());

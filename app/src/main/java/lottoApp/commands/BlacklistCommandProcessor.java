@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 import lottoapp.App;
 import lottoapp.data.Storage;
+import lottoapp.exception.BadCommandSyntaxException;
+
+import static lottoapp.logging.Logging.LOGGER;
 
 public class BlacklistCommandProcessor implements ICommandProcessor {
     private static BlacklistCommandProcessor singletonInstance = null;
@@ -12,7 +15,7 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
     }
 
     @Override
-    public void execute(String[] args) throws IllegalArgumentException {
+    public void execute(String[] args) throws BadCommandSyntaxException {
         if (args.length >= 2) {
             String method = args[0].toLowerCase();
             if (method.equals("add")) {
@@ -25,7 +28,7 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
                         method));
             }
         } else {
-            throw new IllegalArgumentException(String.format(
+            throw new BadCommandSyntaxException(String.format(
                     "Illegal number of arguments for blacklisting: found %d expected at least 2.", args.length));
         }
     }
@@ -37,7 +40,7 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
         return singletonInstance;
     }
 
-    private boolean tryAddNumber(int number) throws IllegalArgumentException {
+    private boolean tryAddNumber(int number) throws BadCommandSyntaxException {
         if (App.BLACKLIST.contains(number)) {
             throw new IllegalArgumentException(String
                     .format("Number '%d' is already in the blacklist. Current blacklist content: %s",
@@ -52,13 +55,13 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
         }
     }
 
-    private void tryParseAddNumbers(String[] args) throws IllegalArgumentException {
+    private void tryParseAddNumbers(String[] args) throws BadCommandSyntaxException {
         boolean blacklistChanged = false;
         if (App.BLACKLIST.size() >= App.MAX_BLACKLIST) {
             throw new IllegalArgumentException(
                     "Blacklist is already full. Try to remove numbers with the command 'blacklist remove number1, number2,...' first.");
         } else if (App.BLACKLIST.size() + args.length > App.MAX_BLACKLIST) {
-            throw new IllegalArgumentException(
+            throw new BadCommandSyntaxException(
                     String.format(
                             "Too many arguments for blacklist. Current blacklist size: %d, maximum blacklist size: %d.",
                             App.BLACKLIST.size(), App.MAX_BLACKLIST));
@@ -69,12 +72,14 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
                     candidate = Integer.parseInt(numberCandidate);
                     if (tryAddNumber(candidate)) {
                         blacklistChanged = true;
+                        String successMsg = String.format("Added %d to blacklist.",candidate);
+                        LOGGER.info(successMsg);
+                        System.out.println(successMsg);
                     }
                 } catch (NumberFormatException e) {
                     throw new IllegalArgumentException(
                             String.format("Entry '%s' cannot be parsed to a valid number.", numberCandidate));
                 }
-
             }
         }
         if (blacklistChanged) {
@@ -82,7 +87,7 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
         }
     }
 
-    private void tryRemoveNumbers(String[] args) throws IllegalArgumentException {
+    private void tryRemoveNumbers(String[] args) throws BadCommandSyntaxException {
         boolean blacklistChanged = false;
         if (App.BLACKLIST.isEmpty()) {
             throw new IllegalArgumentException(
@@ -99,6 +104,9 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
                     if (App.BLACKLIST.contains(candidate)) {
                         blacklistChanged = true;
                         App.BLACKLIST.remove(App.BLACKLIST.indexOf(candidate));
+                        String successMsg = String.format("Removed number %d from blacklist.",candidate);
+                        LOGGER.info(successMsg);
+                        System.out.println(successMsg);
                     } else {
                         throw new IllegalArgumentException(String
                                 .format("Number '%d' is not in the blacklist. Current blacklist content: %s",

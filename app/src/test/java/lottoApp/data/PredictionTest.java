@@ -2,20 +2,22 @@ package lottoapp.data;
 
 import org.junit.Test;
 
+import lottoapp.exception.BadCommandSyntaxException;
+
 import static org.junit.Assert.assertThrows;
 
 public class PredictionTest {
     @Test
     public void constructorTest_countTooLarge() {
-        assertThrows(IllegalArgumentException.class, () -> {Prediction pred = new Prediction(1, 10, 11);});
+        assertThrows(BadCommandSyntaxException.class, () -> {Prediction pred = new Prediction(1, 10, 11);});
     }
     @Test
     public void constructorTest_countNegative(){
-        assertThrows (IllegalArgumentException.class,()->{ Prediction pred= new Prediction(1,10,-1);});
+        assertThrows (BadCommandSyntaxException.class,()->{ Prediction pred= new Prediction(1,10,-1);});
     }
     @Test
     public void constructorTest_countZero(){
-        assertThrows (IllegalArgumentException.class,()->{ Prediction pred= new Prediction(1,10,0);});
+        assertThrows (BadCommandSyntaxException.class,()->{ Prediction pred= new Prediction(1,10,0);});
     }
     @Test
     public void constructorTest_smallestPossibleCount(){

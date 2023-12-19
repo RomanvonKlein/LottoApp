@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import lottoapp.App;
+import lottoapp.exception.BadCommandSyntaxException;
 
 public class Prediction {
     private int min;
@@ -40,10 +41,10 @@ public class Prediction {
         this.max = max;
         this.count = count;
         if (max + 1 - min < count) {
-            throw new IllegalArgumentException(
+            throw new BadCommandSyntaxException(
                     String.format("Cannot generate %s unique numbers in the range from %d to %d.", count, min, max));
         }else if (count <1){
-            throw new IllegalArgumentException("Cannot create prediciton series with less than 1 expected prediction.");
+            throw new BadCommandSyntaxException("Cannot create prediciton series with less than 1 expected prediction.");
         }
     }
 

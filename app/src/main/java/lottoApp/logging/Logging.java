@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.logging.FileHandler;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
@@ -16,7 +17,7 @@ public class Logging {
     private Logging(){}
     public static void setupLogger(){
         //Remove logging output from console
-        LOGGER.removeHandler(LOGGER.getHandlers()[0]);
+        LogManager.getLogManager().reset();
 
         Calendar now = Calendar.getInstance();
 
@@ -31,6 +32,7 @@ public class Logging {
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
         } catch (IOException e) {
+            //This is not written to the logger, as the logger failed to be set up.
             System.err.println("Failed to open log file at '" + logPath + "'.");
         }
         LOGGER.info("Logger set up. App initialized.");

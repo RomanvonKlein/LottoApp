@@ -29,4 +29,6 @@ public interface IGame {
         }
         return false;
     }
+
+    public String getName();
 }

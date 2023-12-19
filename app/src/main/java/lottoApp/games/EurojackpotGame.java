@@ -19,4 +19,9 @@ public class EurojackpotGame implements IGame {
         return ranges;
     }
 
+    @Override
+    public String getName() {
+        return "Eurojackpot";
+    }
+
 }

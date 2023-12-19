@@ -3,30 +3,22 @@
  */
 package lottoapp;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
-
 import lottoapp.commands.BlacklistCommandProcessor;
 import lottoapp.commands.GameCommandProcessor;
 import lottoapp.commands.ICommandProcessor;
+import lottoapp.exception.BadCommandSyntaxException;
 import lottoapp.logging.Logging;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 
 import static lottoapp.data.Storage.loadBlacklist;
 import static lottoapp.logging.Logging.LOGGER;
 
 public class App {
-    // TODO: maybe remove utility functions from the main App class...
+    // Constants
 
 
     public static final List<Integer> BLACKLIST = new ArrayList<>();
@@ -41,20 +33,43 @@ public class App {
         Logging.setupLogger();
         // Load blacklist from os if present
         loadBlacklist();
-        // Parse Inputs
-        boolean stop = parseCommand(args);
+        // Enter input Loop
         try (BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in))) {
+            // Parse Inputs the first time
+            boolean stop = parseCommand(args);
+
             while (!stop) {
-                outputInstructions();
-                String inputs = userInput.readLine();
-                if(inputs != null){
-                    stop = parseCommand(inputs.split(" "));
+                try{
+                    outputInstructions();
+                    String inputs = userInput.readLine();
+                    if(inputs != null){
+                        stop = parseCommand(inputs.split(" "));
+                    }
+                } catch (BadCommandSyntaxException e){
+                    LOGGER.info("The user put in wrong syntax.");
+                    LOGGER.info(e.getMessage());
+                    System.out.println(e.getMessage());
+                } catch (IllegalArgumentException e){
+                    LOGGER.info("The user has put in a bad argument:");
+                    LOGGER.info(e.getMessage());
+                    System.out.println(e.getMessage());
                 }
             }
         } catch (IOException e) {
-            // TODO: clever catch clause here
-            e.printStackTrace();
+            LOGGER.severe("Failed trying to read user-inputs");
+            LOGGER.severe(e.getMessage());
+            //also update the user on what's going on
+            System.out.println("An internal error occurred during initialization. Shutting down.");
+        }catch (BadCommandSyntaxException e){
+            LOGGER.info("The user put in wrong syntax.");
+            LOGGER.info(e.getMessage());
+            System.out.println(e.getMessage());
+        } catch (IllegalArgumentException e){
+            LOGGER.info("The user has put in a bad argument:");
+            LOGGER.info(e.getMessage());
+            System.out.println(e.getMessage());
         }
+
         LOGGER.info("Goodbye!");
         Logging.closeLogger();
     }
@@ -71,11 +86,12 @@ public class App {
         if (CommandMap.containsKey(commandName)) {
             try {
                 CommandMap.get(commandName).execute(Arrays.stream(args, 1, args.length).toArray(String[]::new));
-            } catch (IllegalArgumentException e) {
-                System.out.println(String.format("Bad input: %s", e.getMessage()));
-                outputInstructions();
+            } catch (BadCommandSyntaxException e) {
+                System.out.println(String.format("Wrong command syntax."));
+                LOGGER.info(e.getMessage());
             }
         } else {
+            LOGGER.info(String.format("User entered invalid command: '%s'",commandName));
             System.out.println(
                     String.format("Command with name '%s' was not found. Registered commands: %s", commandName,
                             Arrays.toString(CommandMap.keySet().toArray())));
