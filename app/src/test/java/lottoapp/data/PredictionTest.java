@@ -1,4 +1,4 @@
-package lottoapp_temp.data;
+package lottoapp.data;
 
 import org.junit.Test;
 
