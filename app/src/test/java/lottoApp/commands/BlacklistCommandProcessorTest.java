@@ -2,9 +2,9 @@ package lottoapp.commands;
 
 import org.junit.Test;
 
-import lottoapp_temp.App;
-import lottoapp_temp.commands.BlacklistCommandProcessor;
-import lottoapp_temp.exception.BadCommandSyntaxException;
+import lottoapp.App;
+import lottoapp.commands.BlacklistCommandProcessor;
+import lottoapp.exception.BadCommandSyntaxException;
 
 import java.util.Arrays;
 

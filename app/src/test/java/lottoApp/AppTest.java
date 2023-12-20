@@ -5,8 +5,8 @@ package lottoapp;
 
 import org.junit.Test;
 
-import lottoapp_temp.App;
-import lottoapp_temp.logging.Logging;
+import lottoapp.App;
+import lottoapp.logging.Logging;
 
 import static org.junit.Assert.*;
 

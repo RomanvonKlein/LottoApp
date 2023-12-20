@@ -1,4 +1,4 @@
-package lottoapp_temp.commands;
+package lottoapp.commands;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,11 +6,11 @@ import java.util.Map;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
-import lottoapp_temp.exception.BadCommandSyntaxException;
-import lottoapp_temp.games.EurojackpotGame;
-import lottoapp_temp.games.IGame;
-import lottoapp_temp.games.LottoGame;
-import lottoapp_temp.logging.Logging;
+import lottoapp.exception.BadCommandSyntaxException;
+import lottoapp.games.EurojackpotGame;
+import lottoapp.games.IGame;
+import lottoapp.games.LottoGame;
+import lottoapp.logging.Logging;
 
 /**
  * Command processor for the 'game' command

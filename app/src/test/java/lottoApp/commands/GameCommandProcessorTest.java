@@ -3,8 +3,8 @@ package lottoapp.commands;
 import org.junit.Before;
 import org.junit.Test;
 
-import lottoapp_temp.App;
-import lottoapp_temp.commands.GameCommandProcessor;
+import lottoapp.App;
+import lottoapp.commands.GameCommandProcessor;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

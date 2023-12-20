@@ -1,4 +1,4 @@
-package lottoapp_temp.exception;
+package lottoapp.exception;
 
 /**
  * Exception indicating that a command has been written with invalid syntax.

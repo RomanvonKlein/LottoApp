@@ -1,9 +1,9 @@
-package lottoapp_temp.games;
+package lottoapp.games;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import lottoapp_temp.data.Prediction;
+import lottoapp.data.Prediction;
 
 /**
  * Implementation of the '6 aus 49' game type.

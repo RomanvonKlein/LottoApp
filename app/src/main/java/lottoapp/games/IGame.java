@@ -1,9 +1,9 @@
-package lottoapp_temp.games;
+package lottoapp.games;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import lottoapp_temp.data.Prediction;
+import lottoapp.data.Prediction;
 
 public interface IGame {
     public List<Prediction> getRanges();

@@ -2,7 +2,7 @@ package lottoapp.games;
 
 import org.junit.Test;
 
-import lottoapp_temp.games.EurojackpotGame;
+import lottoapp.games.EurojackpotGame;
 
 import java.util.List;
 

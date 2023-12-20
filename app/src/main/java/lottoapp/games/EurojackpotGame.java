@@ -1,9 +1,9 @@
-package lottoapp_temp.games;
+package lottoapp.games;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import lottoapp_temp.data.Prediction;
+import lottoapp.data.Prediction;
 
 /**
  * Game configuration for the '5 aus 50 und 2 aus 10' game type.
