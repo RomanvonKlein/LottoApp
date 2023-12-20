@@ -8,6 +8,10 @@ import lottoapp.data.Prediction;
 public interface IGame {
     public List<Prediction> getRanges();
 
+    /**
+     * Generates a list of prediction lists as configured in the implementations.
+     * @return
+     */
     public default List<List<Integer>> getPredictions() {
         List<List<Integer>> predictions = new ArrayList<>();
         for (Prediction pred : this.getRanges()) {
@@ -21,6 +25,9 @@ public interface IGame {
         return predictions;
     }
 
+    /**
+     * Checks wether a number in the the configured range of any prediciton range of the implementation.
+     */
     public default boolean isNumberValid(int number) {
         for (Prediction pred : this.getRanges()) {
             if (number >= pred.getMin() && number <= pred.getMax()) {

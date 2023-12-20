@@ -12,15 +12,24 @@ import lottoapp.games.IGame;
 import lottoapp.games.LottoGame;
 import lottoapp.logging.Logging;
 
+/**
+ * Command processor for the 'game' command
+ */
 public class GameCommandProcessor implements ICommandProcessor {
 
     private static GameCommandProcessor singletonInstance = null;
+    /**
+     * Map for assigning user arguments from the console input to IGame - instances.
+     */
     private static HashMap<String, IGame> gameMap = new HashMap<>(
             Map.of("lotto", new LottoGame(), "eurojackpot", new EurojackpotGame()));
 
     private GameCommandProcessor() {
     }
 
+    /**
+     * Singleton provider
+     */
     public static GameCommandProcessor getInstance() {
         if (singletonInstance == null) {
             singletonInstance = new GameCommandProcessor();
@@ -54,6 +63,9 @@ public class GameCommandProcessor implements ICommandProcessor {
         System.out.println(".");
     }
 
+    /**
+     * Checks wether the given number is within any range of any Prediction of any registered IGame instance.
+     */
     public static boolean isNumberValidForAnyGame(int number) {
         for (IGame game : gameMap.values()) {
             if (game.isNumberValid(number)) {

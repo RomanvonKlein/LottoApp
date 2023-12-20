@@ -14,8 +14,14 @@ public class Logging {
     public static final Logger LOGGER = Logger.getLogger(App.class.getName());
     private static final String LOG_DIR = "./logs/";
     private static  FileHandler fh;
-    private Logging(){}
-    public static void setupLogger(){
+
+    private Logging() {
+    }
+
+    /**
+     * Initializes the logger, creating and opening the log file using a FileHandler.
+     */
+    public static void setupLogger() {
         //Remove logging output from console
         LogManager.getLogManager().reset();
 
@@ -37,6 +43,10 @@ public class Logging {
         }
         LOGGER.info("Logger set up. App initialized.");
     }
+
+    /**
+     * Closes the FileHandler for the logfile, removing the file lock.
+     */
     public static void closeLogger(){
         fh.close();
     }

@@ -8,6 +8,9 @@ import lottoapp.exception.BadCommandSyntaxException;
 
 import static lottoapp.logging.Logging.LOGGER;
 
+/**
+ * Command processor for the 'blacklist' command
+ */
 public class BlacklistCommandProcessor implements ICommandProcessor {
     private static BlacklistCommandProcessor singletonInstance = null;
 
@@ -33,6 +36,9 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
         }
     }
 
+    /**
+     * Singleton provider
+     */
     public static BlacklistCommandProcessor getInstance() {
         if (singletonInstance == null) {
             singletonInstance = new BlacklistCommandProcessor();
@@ -40,7 +46,12 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
         return singletonInstance;
     }
 
-    private boolean tryAddNumber(int number) throws BadCommandSyntaxException {
+    /**
+     * Tries to add the givenn number to the blacklist. Checks for bounds and
+     * blacklist restrictions. Throws an IllegalArgumentException if the given
+     * number conflicts with any rules.
+     */
+    private boolean tryAddNumber(int number) throws IllegalArgumentException {
         if (App.BLACKLIST.contains(number)) {
             throw new IllegalArgumentException(String
                     .format("Number '%d' is already in the blacklist. Current blacklist content: %s",
@@ -55,7 +66,14 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
         }
     }
 
-    private void tryParseAddNumbers(String[] args) throws BadCommandSyntaxException {
+    /**
+     * Tries to parse numbers from the strings in the provided array. Then tries to
+     * add them one-by-one to the blacklist.
+     * <p>
+     * Will throw if either the string cannot be parsed to a number or the parsed
+     * number conflicts with any rules.
+     */
+    private void tryParseAddNumbers(String[] args) throws BadCommandSyntaxException, IllegalArgumentException {
         boolean blacklistChanged = false;
         if (App.BLACKLIST.size() >= App.MAX_BLACKLIST) {
             throw new IllegalArgumentException(
@@ -72,7 +90,7 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
                     candidate = Integer.parseInt(numberCandidate);
                     if (tryAddNumber(candidate)) {
                         blacklistChanged = true;
-                        String successMsg = String.format("Added %d to blacklist.",candidate);
+                        String successMsg = String.format("Added %d to blacklist.", candidate);
                         LOGGER.info(successMsg);
                         System.out.println(successMsg);
                     }
@@ -87,7 +105,11 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
         }
     }
 
-    private void tryRemoveNumbers(String[] args) throws BadCommandSyntaxException {
+    /**
+     * Tries to parse the given array of strings to numbers, then to remove them
+     * from the blacklist. In case any string cannot be parsed or any parsed number violates the rules, will throw an IllegalArgumentException.
+     */
+    private void tryRemoveNumbers(String[] args) throws IllegalArgumentException {
         boolean blacklistChanged = false;
         if (App.BLACKLIST.isEmpty()) {
             throw new IllegalArgumentException(
@@ -104,7 +126,7 @@ public class BlacklistCommandProcessor implements ICommandProcessor {
                     if (App.BLACKLIST.contains(candidate)) {
                         blacklistChanged = true;
                         App.BLACKLIST.remove(App.BLACKLIST.indexOf(candidate));
-                        String successMsg = String.format("Removed number %d from blacklist.",candidate);
+                        String successMsg = String.format("Removed number %d from blacklist.", candidate);
                         LOGGER.info(successMsg);
                         System.out.println(successMsg);
                     } else {

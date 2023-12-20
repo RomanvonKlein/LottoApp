@@ -5,6 +5,9 @@ import java.util.List;
 
 import lottoapp.data.Prediction;
 
+/**
+ * Game configuration for the '5 aus 50 und 2 aus 10' game type.
+ */
 public class EurojackpotGame implements IGame {
 
     private static ArrayList<Prediction> ranges = new ArrayList<>() {

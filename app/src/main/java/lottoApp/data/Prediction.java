@@ -43,11 +43,15 @@ public class Prediction {
         if (max + 1 - min < count) {
             throw new BadCommandSyntaxException(
                     String.format("Cannot generate %s unique numbers in the range from %d to %d.", count, min, max));
-        }else if (count <1){
-            throw new BadCommandSyntaxException("Cannot create prediciton series with less than 1 expected prediction.");
+        } else if (count < 1) {
+            throw new BadCommandSyntaxException(
+                    "Cannot create prediciton series with less than 1 expected prediction.");
         }
     }
 
+    /**
+     * Generates a new prediction. Considers the list of predictions already in the current set, the blacklist and the range of the  
+     */
     public int generateNext(List<Integer> predictionSet) {
         int prediction = rand.nextInt(this.min, this.max + 1);
         while (predictionSet.contains(prediction) || App.BLACKLIST.contains(prediction)) {

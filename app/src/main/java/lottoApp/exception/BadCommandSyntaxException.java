@@ -1,5 +1,8 @@
 package lottoapp.exception;
 
+/**
+ * Exception indicating that a command has been written with invalid syntax.
+ */
 public class BadCommandSyntaxException extends IllegalArgumentException {
     private String additionalMessage = "";
 

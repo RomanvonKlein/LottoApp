@@ -16,13 +16,16 @@ public class Storage {
     private Storage() {
     }
 
+    /**
+     * Saves the currently configured blacklist under BLACKLIST_FILE_PATH in json format.
+     */
     public static void saveBlacklist() {
         try {
             Gson gson = new Gson();
             File file = new File(BLACKLIST_FILE_PATH);
             if (file.exists()) {
                 file.delete();
-                
+
             }
             String json = gson.toJson(App.BLACKLIST.toArray());
             LOGGER.info(String.format("Parsed json from blacklist: '%s'", json));
@@ -37,6 +40,9 @@ public class Storage {
 
     }
 
+    /**
+     * Loads the blacklist as configured in json format from the file at BLACKLIST_FILE_PATH.
+     */
     public static List<Integer> loadBlacklist() {
         Gson gson = new Gson();
         try {

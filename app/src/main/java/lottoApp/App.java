@@ -116,6 +116,9 @@ public class App {
         return false;
     }
 
+    /**
+     * Prints out instructions for the user on how to operate the application.
+     */
     private static void outputInstructions() {
         System.out.println("LottoApp usage: [command] [parameter1, parameter2, ...]");
         System.out.println("    commands: game, blacklist, exit");
