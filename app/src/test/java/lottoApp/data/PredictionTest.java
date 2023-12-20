@@ -2,7 +2,8 @@ package lottoapp.data;
 
 import org.junit.Test;
 
-import lottoapp.exception.BadCommandSyntaxException;
+import lottoapp_temp.data.Prediction;
+import lottoapp_temp.exception.BadCommandSyntaxException;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;

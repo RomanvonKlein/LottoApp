@@ -1,4 +1,6 @@
-package lottoapp.data;
+package lottoapp_temp.data;
+
+import static lottoapp_temp.logging.Logging.LOGGER;
 
 import java.io.*;
 import java.util.Arrays;
@@ -6,9 +8,8 @@ import java.util.List;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import lottoapp.App;
 
-import static lottoapp.logging.Logging.LOGGER;
+import lottoapp_temp.App;
 
 public class Storage {
     private static final String BLACKLIST_FILE_PATH = "./blacklist.json";

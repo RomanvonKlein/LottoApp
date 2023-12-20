@@ -2,6 +2,8 @@ package lottoapp.games;
 
 import org.junit.Test;
 
+import lottoapp_temp.games.EurojackpotGame;
+
 import java.util.List;
 
 import static org.junit.Assert.*;

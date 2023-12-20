@@ -1,6 +1,6 @@
-package lottoapp.commands;
+package lottoapp_temp.commands;
 
-import lottoapp.exception.BadCommandSyntaxException;
+import lottoapp_temp.exception.BadCommandSyntaxException;
 
 /**
  * Interface to be implemented for all used commands besides 'exit'.

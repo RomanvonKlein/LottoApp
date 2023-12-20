@@ -3,11 +3,10 @@
  */
 package lottoapp;
 
-import lottoapp.logging.Logging;
-
 import org.junit.Test;
 
-import lottoapp.App;
+import lottoapp_temp.App;
+import lottoapp_temp.logging.Logging;
 
 import static org.junit.Assert.*;
 

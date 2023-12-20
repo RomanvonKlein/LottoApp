@@ -1,6 +1,4 @@
-package lottoapp.logging;
-
-import lottoapp.App;
+package lottoapp_temp.logging;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +7,8 @@ import java.util.logging.FileHandler;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+
+import lottoapp_temp.App;
 
 public class Logging {
     public static final Logger LOGGER = Logger.getLogger(App.class.getName());

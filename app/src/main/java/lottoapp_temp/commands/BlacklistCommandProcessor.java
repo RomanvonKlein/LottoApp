@@ -1,12 +1,12 @@
-package lottoapp.commands;
+package lottoapp_temp.commands;
+
+import static lottoapp_temp.logging.Logging.LOGGER;
 
 import java.util.Arrays;
 
-import lottoapp.App;
-import lottoapp.data.Storage;
-import lottoapp.exception.BadCommandSyntaxException;
-
-import static lottoapp.logging.Logging.LOGGER;
+import lottoapp_temp.App;
+import lottoapp_temp.data.Storage;
+import lottoapp_temp.exception.BadCommandSyntaxException;
 
 /**
  * Command processor for the 'blacklist' command

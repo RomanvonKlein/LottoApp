@@ -1,10 +1,10 @@
-package lottoapp.data;
+package lottoapp_temp.data;
 
 import java.util.List;
 import java.util.Random;
 
-import lottoapp.App;
-import lottoapp.exception.BadCommandSyntaxException;
+import lottoapp_temp.App;
+import lottoapp_temp.exception.BadCommandSyntaxException;
 
 public class Prediction {
     private int min;
