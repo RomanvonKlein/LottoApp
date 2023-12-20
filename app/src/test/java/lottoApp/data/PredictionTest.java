@@ -46,7 +46,7 @@ public class PredictionTest {
     public void predicitonTest_shouldBeInRange() {
         Prediction pred = new Prediction(1, 10, 1);
         int result = pred.generateNext(new ArrayList<Integer>());
-        assertTrue(result > 0 && result < 10);
+        assertTrue(result > 0 && result < 11);
     }
 
     @Test
