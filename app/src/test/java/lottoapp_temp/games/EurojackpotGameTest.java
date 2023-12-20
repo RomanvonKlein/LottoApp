@@ -1,4 +1,4 @@
-package lottoapp.games;
+package lottoapp_temp.games;
 
 import org.junit.Test;
 

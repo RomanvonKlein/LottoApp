@@ -1,4 +1,4 @@
-package lottoapp.commands;
+package lottoapp_temp.commands;
 
 import org.junit.Before;
 import org.junit.Test;
